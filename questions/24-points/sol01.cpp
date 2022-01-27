@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <SimpleTest.h>
 
 using namespace std;
 
@@ -94,6 +95,12 @@ string dts(vector<string> cards, int removingCardIndex, char currentOperator, in
 
 int main()
 {
+    st::TestRunner runner;
+    st::TestSuite suite("Suite 01");
+    suite.push_back(new st::TestCase("Test 01", "4 2 K A", "K+A*2-4"));
+    runner.addTask(&suite);
+    runner.start();
+
     string inputs[4];
     while (cin >> inputs[0] >> inputs[1] >> inputs[2] >> inputs[3])
     {
@@ -117,9 +124,11 @@ int main()
         string result = dts(cards, -1, -1, 0, "");
         if (result.empty())
         {
-        result = "NONE";
+            result = "NONE";
         }
-        cout << "final result is " << result << endl;
+        cout << result << endl;
+        runner.check();
     }
+    runner.finish();
     return 0;
 }

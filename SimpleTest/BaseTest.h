@@ -20,7 +20,7 @@ public:
 
     std::string description() { return m_description; }
 
-    virtual bool launch() = 0;
+    virtual bool check() { return false; }
 
 private:
     std::string m_description;

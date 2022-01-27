@@ -3,6 +3,7 @@
 
 #include "BaseTest.h"
 #include <sstream>
+#include <functional>
 
 namespace st
 {
@@ -10,15 +11,22 @@ namespace st
 class TestCase: public BaseTest
 {
 public:
+    TestCase(const std::string& description);
     TestCase(const std::string& description, const char* testData, const std::string& expect);
     TestCase(const std::string& description, const std::string& filename, const std::string& expect);
     ~TestCase();
 
+    std::string expect() { return m_expect; }
+
     std::streambuf* testDataBuf() { return m_testDataBuf; };
 
-    virtual bool launch() override;
-
     bool check(const std::string& actual);
+
+    template<typename T>
+    bool check(std::function<T()> fn)
+    {
+        return fn();
+    }
 
 private:
     std::streambuf* m_testDataBuf;

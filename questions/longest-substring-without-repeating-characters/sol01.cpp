@@ -36,36 +36,38 @@
 
 using namespace std;
 
-int lengthOfLongestSubstring(string data) {
-    vector<int> indicesTable(128, 0);
-    int maxLength = 0;
-    int head = 0;
-    for (int tail = 0; tail < data.size(); tail++) {
-        char currChar = data[tail];
-        head = max(head, indicesTable[currChar]);
-        indicesTable[currChar] = tail + 1;
-        maxLength = max(maxLength, tail - head + 1);
+class Solution
+{
+public:
+    int lengthOfLongestSubstring(string data) 
+    {
+        vector<int> indicesTable(128, 0);
+        int maxLength = 0;
+        int head = 0;
+        for (int tail = 0; tail < data.size(); tail++) {
+            char currChar = data[tail];
+            head = max(head, indicesTable[currChar]);
+            indicesTable[currChar] = tail + 1;
+            maxLength = max(maxLength, tail - head + 1);
+        }
+        return maxLength;
     }
-    return maxLength;
-}
+};
+
+// BEGIN_TEST_RUNNER(Solution)
+//  BEGIN_LEETCODE_TEST_CASE(test01, "test01", int, 4)
+    // lengthOfLongestSubstring("abcadb")
+//  END_LEETCODE_TEST_CASE
+// END_TEST_RUNNER
 
 int main()
 {
-    st::TestRunner runner;
-    runner.addTask(new st::TestCase("Test01", "abc def", "abc"));
-    runner.addTask(new st::TestCase("Test02", "bca fed", "dba"));
+    st::LeetCodeTestRunner runner;
+    st::LeetCodeTestCase<int> test01("test01", 4, [=]() {
+        Solution sol;
+        return sol.lengthOfLongestSubstring("abcadb");
+    });
+    runner.addTask(&test01);
     runner.start();
-    // cout << lengthOfLongestSubstring("abcadefgisadeg") << endl;
-    std::string a;
-    std::cin >> a;
-    std::cin >> a;
-    std::cout << "abc" << std::endl;
-    runner.check();
-    std::cin >> a;
-    std::cin >> a;
-    std::cout << "dba" << std::endl;
-    runner.check();
     runner.finish();
-
-    return 0;
 }

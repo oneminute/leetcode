@@ -7,14 +7,11 @@
 namespace st
 {
 
-class TestCase;
-class TestSuite: public BaseTest, public std::list<TestCase*>
+class TestSuite: public BaseTest, public std::list<BaseTest*>
 {
 public:
     TestSuite(const std::string& description);
     ~TestSuite();
-
-    virtual bool launch();
 
 private:
     

@@ -4,6 +4,12 @@
 namespace st
 {
 
+TestCase::TestCase(const std::string& description)
+    :BaseTest(description)
+{
+
+}
+
 TestCase::TestCase(const std::string& description, const char* testData, const std::string& expect)
     : BaseTest(description)
     , m_testDataBuf(nullptr)
@@ -34,11 +40,6 @@ TestCase::~TestCase()
         delete m_testDataBuf;
         m_testDataBuf = nullptr;
     }
-}
-
-bool TestCase::launch()
-{
-    return true;
 }
 
 bool TestCase::check(const std::string& actual)

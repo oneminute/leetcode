@@ -6,7 +6,7 @@ namespace st
 
 TestSuite::TestSuite(const std::string& description)
     : BaseTest(description)
-    , std::list<TestCase*>()
+    , std::list<BaseTest*>()
 {
 
 }
@@ -14,11 +14,6 @@ TestSuite::TestSuite(const std::string& description)
 TestSuite::~TestSuite()
 {
 
-}
-
-bool TestSuite::launch()
-{
-    return true;
 }
 
 }
