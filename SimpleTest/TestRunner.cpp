@@ -76,7 +76,11 @@ void TestRunner::check()
 std::streambuf::int_type TestRunner::underflow()
 {
     if (!m_started)
-        throw std::exception("Test runner has not been started.");
+    {
+        // throw std::exception("Test runner has not been started.");
+        std::cerr << "Test runner has not been started." << std::endl;
+        return traits_type::eof();
+    }
 
     if (m_taskQueue.empty())
         return traits_type::eof();
@@ -109,7 +113,11 @@ std::streambuf::int_type TestRunner::underflow()
 std::streambuf::int_type TestRunner::overflow(std::streambuf::int_type value)
 {
     if (!m_started)
-        throw std::exception("Test runner has not been started.");
+    {
+        // throw std::exception("Test runner has not been started.");
+        std::cerr << "Test runner has not been started." << std::endl;
+        return traits_type::eof();
+    }
 
     setp(m_buffer.data(), m_buffer.data() + m_buffer.size());
     return traits_type::not_eof(value);
