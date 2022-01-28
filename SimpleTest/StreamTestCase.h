@@ -1,5 +1,5 @@
-#ifndef TESTCASE_H
-#define TESTCASE_H
+#ifndef STREAMTESTCASE_H
+#define STREAMTESTCASE_H
 
 #include "BaseTest.h"
 #include <sstream>
@@ -8,13 +8,12 @@
 namespace st
 {
 
-class TestCase: public BaseTest
+class StreamTestCase: public BaseTest
 {
 public:
-    TestCase(const std::string& description);
-    TestCase(const std::string& description, const char* testData, const std::string& expect);
-    TestCase(const std::string& description, const std::string& filename, const std::string& expect);
-    ~TestCase();
+    StreamTestCase(const std::string& description, const char* testData, const std::string& expect);
+    StreamTestCase(const std::string& description, const std::string& filename, const std::string& expect);
+    ~StreamTestCase();
 
     std::string expect() { return m_expect; }
 
@@ -34,4 +33,4 @@ private:
 };
 
 }
-#endif
+#endif // STREAMTESTCASE_H

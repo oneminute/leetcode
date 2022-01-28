@@ -8,12 +8,15 @@ project ("SimpleTest")
 set(SRC
 	SimpleTest.h
 	BaseTest.h
-	TestCase.h
-	TestCase.cpp
+	BaseTest.cpp
+	StreamTestCase.h
+	StreamTestCase.cpp
 	TestSuite.h
 	TestSuite.cpp
-	TestRunner.h
-	TestRunner.cpp
+	BaseRunner.h
+	BaseRunner.cpp
+	StreamTestRunner.h
+	StreamTestRunner.cpp
 )
 
 add_library(SimpleTest ${SRC})

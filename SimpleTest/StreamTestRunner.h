@@ -1,31 +1,32 @@
-#ifndef TESTRUNNER_H
-#define TESTRUNNER_H
+#ifndef STREAMTESTRUNNER_H
+#define STREAMTESTRUNNER_H
 
 #include <iostream>
 #include <list>
 #include <queue>
 #include "BaseTest.h"
+#include "BaseRunner.h"
 
 namespace st
 {
 
-class TestCase;
+class StreamTestCase;
 
-class TestRunner : public std::streambuf
+class StreamTestRunner : public BaseRunner, public std::streambuf
 {
 public:
     using TaskList = std::list<BaseTest*>;
     using TaskListIterator = TaskList::iterator;
     using TaskListConstIterator = TaskList::const_iterator;
-    using TaskQueue = std::queue<TestCase*>;
+    using TaskQueue = std::queue<StreamTestCase*>;
 
-    TestRunner(unsigned long long bufferSize = 1024 * 1024 * 2);
-    ~TestRunner();
+    StreamTestRunner(unsigned long long bufferSize = 1024 * 1024 * 2);
+    ~StreamTestRunner();
 
     void addTask(BaseTest* task);
     void removeTask(BaseTest* task);
-    void start();
-    void finish();
+    virtual void start();
+    virtual void finish();
     void check();
 
     virtual std::streambuf::int_type underflow();
@@ -43,10 +44,9 @@ private:
     std::streambuf* m_coutBuf;
     std::ostream* m_coutStream;
     std::string m_result;
-    bool m_started;
     char m_currChar;
     std::vector<std::streambuf::char_type> m_buffer;
 };
 
 }
-#endif // TESTRUNNER_H
+#endif // STREAMTESTRUNNER_H

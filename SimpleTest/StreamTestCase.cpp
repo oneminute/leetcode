@@ -1,16 +1,10 @@
-#include "TestCase.h"
+#include "StreamTestCase.h"
 #include <fstream>
 
 namespace st
 {
 
-TestCase::TestCase(const std::string& description)
-    :BaseTest(description)
-{
-
-}
-
-TestCase::TestCase(const std::string& description, const char* testData, const std::string& expect)
+StreamTestCase::StreamTestCase(const std::string& description, const char* testData, const std::string& expect)
     : BaseTest(description)
     , m_testDataBuf(nullptr)
     , m_expect(expect)
@@ -18,7 +12,7 @@ TestCase::TestCase(const std::string& description, const char* testData, const s
     m_testDataBuf = new std::stringbuf(testData);
 }
 
-TestCase::TestCase(const std::string& description, const std::string& filename, const std::string& expect)
+StreamTestCase::StreamTestCase(const std::string& description, const std::string& filename, const std::string& expect)
     : BaseTest(description)
     , m_testDataBuf(nullptr)
     , m_expect(expect)
@@ -33,7 +27,7 @@ TestCase::TestCase(const std::string& description, const std::string& filename, 
     m_testDataBuf = fbuf;
 }
 
-TestCase::~TestCase()
+StreamTestCase::~StreamTestCase()
 {
     if (m_testDataBuf)
     {
@@ -42,7 +36,7 @@ TestCase::~TestCase()
     }
 }
 
-bool TestCase::check(const std::string& actual)
+bool StreamTestCase::check(const std::string& actual)
 {
     return actual == m_expect;
 }

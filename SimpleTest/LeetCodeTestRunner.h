@@ -1,9 +1,10 @@
 #ifndef LEETCODETESTRUNNER_H
 #define LEETCODETESTRUNNER_H
 
+#include <list>
+#include "BaseRunner.h"
 #include "LeetCodeTestCase.h"
 #include "TestSuite.h"
-#include <list>
 
 // #ifdef NO_TEST
 //     #define BEGIN_TEST_RUNNER
@@ -13,17 +14,15 @@
 //     #define END_LEETCODE_TEST_CASE(caseName)
 //     #define END_TEST_RUNNER
 // #else
-//     #define BEGIN_TEST_RUNNER(Solution) \
+//     #define BEGIN_TEST_RUNNER() \
 //     int main() \
 //     { \
-//         Solution sol; \
 //         st::LeetCodeTestRunner runner;
 
-//     #define BEGIN_LEETCODE_TEST_CASE(caseName, desc, T, expect) \
+//     #define LEETCODE_TEST_CASE(caseName, funcName, desc, T, expect) \
 //     st::LeetCodeTestCase<T> caseName(std::string(desc), expect, [=] () { \
-//         return sol.
-
-//     #define END_LEETCODE_TEST_CASE \
+//         Solution<T> sol; \
+//         return sol.funcName
 //     ;});
 
 //     #define END_TEST_RUNNER \
@@ -34,7 +33,8 @@
 namespace st
 {
 
-class LeetCodeTestRunner
+template<typename T>
+class LeetCodeTestRunner: public BaseRunner
 {
 public:
     LeetCodeTestRunner()
@@ -48,8 +48,9 @@ public:
         m_tasks.push_back(task);
     }
 
-    void start()
+    virtual void start()
     {
+        BaseRunner::start();
         for (BaseTest* task: m_tasks)
         {
             TestSuite* suite = dynamic_cast<TestSuite*>(task);
@@ -64,20 +65,29 @@ public:
         }
     }
 
-    void finish()
-    {}
+    virtual void finish()
+    {
+        BaseRunner::finish();
+    }
 
 protected:
     void check(BaseTest* task)
     {
-        if (task->check())
+        LeetCodeTestCase<T>* t = dynamic_cast<LeetCodeTestCase<T>*>(task);
+        if (!t)
+            return;
+        t->start();
+        if (t->check())
         {
-            std::cout << "[st] " << task->description() << ": Passed." << std::endl;
+            std::cout << "[st] " << t->description() << ": Passed." << std::endl;
+            addPassed();
         }
         else
         {
-            std::cerr << "[st]" << task->description() << ": Failure." << std::endl;
+            std::cerr << "[st] " << t->description() << ": Failure." << std::endl;
+            addFailure();
         }
+        t->finish(&std::cout);
     }
 
 private:

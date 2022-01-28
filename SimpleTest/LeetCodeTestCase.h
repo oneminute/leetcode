@@ -25,7 +25,8 @@ public:
 
     virtual bool check()
     {
-        return m_expect == m_fn();
+        setResult(m_expect == m_fn());
+        return result();
     }
 
     const T& expect()

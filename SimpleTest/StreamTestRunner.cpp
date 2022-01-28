@@ -1,41 +1,42 @@
-#include "TestRunner.h"
+#include "StreamTestRunner.h"
 
 #include <stack>
 
-#include "TestCase.h"
+#include "StreamTestCase.h"
 #include "TestSuite.h"
 
 namespace st
 {
 
-TestRunner::TestRunner(unsigned long long bufferSize)
+StreamTestRunner::StreamTestRunner(unsigned long long bufferSize)
     : std::streambuf()
-    , m_started(false)
     , m_coutStream(nullptr)
 {
     m_buffer = std::vector<char>(bufferSize, 0);
     setp(m_buffer.data(), m_buffer.data() + bufferSize);
 }
 
-TestRunner::~TestRunner()
+StreamTestRunner::~StreamTestRunner()
 {
 
 }
 
-void TestRunner::addTask(BaseTest* task)
+void StreamTestRunner::addTask(BaseTest* task)
 {
     m_tasks.push_back(task);
 }
 
-void TestRunner::removeTask(BaseTest* task)
+void StreamTestRunner::removeTask(BaseTest* task)
 {
     auto it = std::find(m_tasks.begin(), m_tasks.end(), task);
     m_tasks.erase(it);
     delete task;
 }
 
-void TestRunner::start()
+void StreamTestRunner::start()
 {
+    BaseRunner::start();
+
     m_cinBuf = std::cin.rdbuf(this);
     m_coutBuf = std::cout.rdbuf(this);
     m_coutStream = new std::ostream(m_coutBuf);
@@ -43,43 +44,45 @@ void TestRunner::start()
     m_result = std::string();
 }
 
-void TestRunner::finish()
+void StreamTestRunner::finish()
 {
-    if (!m_started)
+    if (!isStarted())
         return;
     std::cout << std::endl;
     std::cin.rdbuf(m_cinBuf);
     std::cout.rdbuf(m_coutBuf);
     delete m_coutStream;
     std::cout << "[st] Finished" << std::endl;
-    m_started = false;
+    BaseRunner::finish();
 }
 
-void TestRunner::check()
+void StreamTestRunner::check()
 {
     if (m_assertionQueue.empty())
         return;
 
     sync();
-    TestCase* task = m_assertionQueue.front();
+    StreamTestCase* task = m_assertionQueue.front();
     m_assertionQueue.pop();
 
     if (task->check(m_result))
-    {
-        *m_coutStream << "[st] " << task->description() << ": Passed" << std::endl;
+    { 
+        addPassed();
+        task->finish(m_coutStream);
     }
     else
     {
-        std::cerr << "[st] " << task->description() << ": Failure (expect: " << task->expect() << ", actual: " << m_result << ")" << std::endl;
+        addFailure();
+        task->finish(m_coutStream, "(expect: " + task->expect() + ", actual: " + m_result + ")");
     }
+    
     m_result = std::string();
 }
 
-std::streambuf::int_type TestRunner::underflow()
+std::streambuf::int_type StreamTestRunner::underflow()
 {
-    if (!m_started)
+    if (!isStarted())
     {
-        // throw std::exception("Test runner has not been started.");
         std::cerr << "[st] Test runner has not been started." << std::endl;
         return traits_type::eof();
     }
@@ -87,7 +90,9 @@ std::streambuf::int_type TestRunner::underflow()
     if (m_taskQueue.empty())
         return traits_type::eof();
 
-    std::streambuf* currBuf = m_taskQueue.front()->testDataBuf();
+    StreamTestCase* t = m_taskQueue.front();
+    t->start();
+    std::streambuf* currBuf = t->testDataBuf();
 
     // Read one character and move the current buffer advance.
     std::streambuf::int_type i = currBuf->sbumpc();
@@ -112,9 +117,9 @@ std::streambuf::int_type TestRunner::underflow()
     return i;
 }
 
-std::streambuf::int_type TestRunner::overflow(std::streambuf::int_type value)
+std::streambuf::int_type StreamTestRunner::overflow(std::streambuf::int_type value)
 {
-    if (!m_started)
+    if (!isStarted())
     {
         // throw std::exception("Test runner has not been started.");
         std::cerr << "[st] Test runner has not been started." << std::endl;
@@ -125,7 +130,7 @@ std::streambuf::int_type TestRunner::overflow(std::streambuf::int_type value)
     return traits_type::not_eof(value);
 }
 
-std::streambuf::int_type TestRunner::sync()
+std::streambuf::int_type StreamTestRunner::sync()
 {
     long long writeSize = pptr() - pbase();
 
@@ -144,7 +149,7 @@ std::streambuf::int_type TestRunner::sync()
     return overflow(traits_type::eof());
 }
 
-void TestRunner::initTaskQueue()
+void StreamTestRunner::initTaskQueue()
 {
     if (m_tasks.empty())
         return;
@@ -159,7 +164,7 @@ void TestRunner::initTaskQueue()
         {
             for(BaseTest* c: *suite)
             {
-                TestCase* caseItem = dynamic_cast<TestCase*>(c);
+                StreamTestCase* caseItem = dynamic_cast<StreamTestCase*>(c);
                 if (caseItem)
                 {
                     m_taskQueue.push(caseItem);
@@ -169,12 +174,11 @@ void TestRunner::initTaskQueue()
         }
         else
         {
-            TestCase* caseItem = dynamic_cast<TestCase*>(i);
+            StreamTestCase* caseItem = dynamic_cast<StreamTestCase*>(i);
             m_taskQueue.push(caseItem);
             m_assertionQueue.push(caseItem);
         }
     }
-    m_started = true;
 }
 
 }

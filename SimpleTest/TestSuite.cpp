@@ -1,5 +1,5 @@
 #include "TestSuite.h"
-#include "TestCase.h"
+#include "StreamTestCase.h"
 
 namespace st
 {
