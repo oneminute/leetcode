@@ -22,7 +22,7 @@ set(leetcode_link_libraries
 # Add source to this project's executable.
 add_executable (leetcode "leetcode.cpp" "leetcode.h" )
 
-add_subdirectory(questions)
+add_subdirectory(problems)
 
 
 # TODO: Add tests and install targets if needed.

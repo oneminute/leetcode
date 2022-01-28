@@ -95,9 +95,9 @@ string dts(vector<string> cards, int removingCardIndex, char currentOperator, in
 
 int main()
 {
-    st::TestRunner runner;
+    st::StreamTestRunner runner;
     st::TestSuite suite("Suite 01");
-    suite.push_back(new st::TestCase("Test 01", "4 2 K A", "K+A*2-4"));
+    suite.push_back(new st::StreamTestCase("Test 01", "4 2 K A", "K+A*2-4"));
     runner.addTask(&suite);
     runner.start();
 

@@ -54,15 +54,9 @@ public:
     }
 };
 
-// BEGIN_TEST_RUNNER(Solution)
-//  BEGIN_LEETCODE_TEST_CASE(test01, "test01", int, 4)
-    // lengthOfLongestSubstring("abcadb")
-//  END_LEETCODE_TEST_CASE
-// END_TEST_RUNNER
-
 int main()
 {
-    st::LeetCodeTestRunner runner;
+    st::LeetCodeTestRunner<int> runner;
     st::LeetCodeTestCase<int> test01("test01", 4, [=]() {
         Solution sol;
         return sol.lengthOfLongestSubstring("abcadb");

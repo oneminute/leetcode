@@ -1,6 +1,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include <SimpleTest.h>
 
 using namespace std;
 
@@ -15,14 +16,16 @@ inline int getDigit(string& str, int index)
 
 int main(int argc, char *argv[])
 {
-//    string s1, s2;
 
-    string s1("99765");
-    string s2("765");
-//    string s1("0");
-//    string s2("0");
+    st::StreamTestRunner runner;
+    st::TestSuite suite("Suite 01");
+    suite.push_back(new st::StreamTestCase("Test 01", "99765 765", "100530"));
+    runner.addTask(&suite);
+    runner.start();
 
-//    while (cin >> s1 >> s2)
+    string s1, s2;
+
+    while (cin >> s1 >> s2)
     {
         int carry = 0;
         int maxSize = max(s1.size(), s2.size());
@@ -45,7 +48,10 @@ int main(int argc, char *argv[])
             cout << final[i];
         }
         cout << endl;
+
+        runner.check();
     }
+    runner.finish();
 
     return 0;
 }
