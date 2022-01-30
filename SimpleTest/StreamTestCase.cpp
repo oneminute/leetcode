@@ -20,7 +20,7 @@ StreamTestCase::StreamTestCase(const std::string& description, const std::string
     std::filebuf* fbuf = new std::filebuf;
     if (!fbuf->open(filename, std::ios::in))
     {
-        std::cout << "open file failure: " << filename << std::endl;
+        std::cout << "open file failed: " << filename << std::endl;
         delete fbuf;
         fbuf = nullptr;
     }

@@ -17,7 +17,7 @@ void BaseTest::finish(std::ostream* out, const std::string& reason)
     m_duration = std::chrono::duration_cast<DurationMS>(now - m_startTime);
     (*out) << "[st] " 
         << description() 
-        << (result() ? " Passed" : " Failure")
+        << (result() ? " Passed" : " failed")
         << " in "
         << m_duration.count()
         << " ms. "

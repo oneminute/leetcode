@@ -72,7 +72,7 @@ void StreamTestRunner::check()
     }
     else
     {
-        addFailure();
+        addfailed();
         task->finish(m_coutStream, "(expect: " + task->expect() + ", actual: " + m_result + ")");
     }
     

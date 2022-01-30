@@ -13,8 +13,8 @@ void BaseRunner::start()
 
 void BaseRunner::finish()
 {
-    int total = passed() + failure();
-    std::cout << "[st] SimpleTest finished. " << passed() << "/" << total << " passed, " << failure() << "/" << total << " failure" << std::endl;
+    int total = passed() + failed();
+    std::cout << "[st] SimpleTest finished. " << passed() << "/" << total << " passed, " << failed() << "/" << total << " failed" << std::endl;
     setStarted(false);
 }
 

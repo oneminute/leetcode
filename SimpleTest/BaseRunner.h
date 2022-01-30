@@ -13,7 +13,7 @@ public:
 
     BaseRunner()
         : m_passed(0)
-        , m_failure(0)
+        , m_failed(0)
         , m_started(false)
     {}
     ~BaseRunner()
@@ -24,17 +24,17 @@ public:
     bool isStarted() const { return m_started; }
 
     int passed() const { return m_passed; }
-    int failure() const { return m_failure; }
+    int failed() const { return m_failed; }
 
     void addPassed() { m_passed++; }
-    void addFailure() { m_failure++; }
+    void addfailed() { m_failed++; }
 
 protected:
     void setStarted(bool started = true) { m_started = started; }
 
 private:
     int m_passed;
-    int m_failure;
+    int m_failed;
     DurationMS m_duration;
     TimeStamp m_startTime;
     bool m_started;

@@ -84,8 +84,8 @@ protected:
         }
         else
         {
-            std::cerr << "[st] " << t->description() << ": Failure." << std::endl;
-            addFailure();
+            std::cerr << "[st] " << t->description() << ": failed." << std::endl;
+            addfailed();
         }
         t->finish(&std::cout);
     }

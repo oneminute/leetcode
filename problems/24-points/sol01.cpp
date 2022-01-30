@@ -98,6 +98,7 @@ int main()
     st::StreamTestRunner runner;
     st::TestSuite suite("Suite 01");
     suite.push_back(new st::StreamTestCase("Test 01", "4 2 K A", "K+A*2-4"));
+    suite.push_back(new st::StreamTestCase("Test 01", "1 9 1 2", "K+A*2-4"));
     runner.addTask(&suite);
     runner.start();
 
