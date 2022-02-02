@@ -1,3 +1,14 @@
+/**
+ * @file sol01.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * reference from https://blog.csdn.net/zhaitianbao/article/details/120303885?utm_source=app&app_version=5.0.0&utm_source=app
+ * @version 0.1
+ * @date 2022-01-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <iostream>
 #include <string>
 #include <vector>
@@ -6,7 +17,7 @@
 using namespace std;
  
 // 判断字符是否符合要求
-bool isMatchStar(char c)
+bool isOk(char c)
 {
     return (isalpha(c)||isalnum(c)||c=='.');
 }
@@ -15,71 +26,29 @@ bool Match(string s1,string s2)
 {
     int m = s1.size();
     int n = s2.size();
-
-    int i = 0;
-    int j = 0;
-
-    bool match = true;
-    while (i < m || j < n)
+    vector<vector<bool>> v(m+1,vector<bool>(n+1,false));
+    v[0][0] = true;
+    for(int i=1;i<=m;++i)
     {
-        if (s1[i] == '*')
+        v[i][0] = v[i-1][0]&&(s1[i-1]=='*');
+        for(int j=1;j<=n;++j)
         {
-            if (isMatchStar(s2[j]))
-            {
-                j++;
+            if(s1[i-1]=='*'){
+                if(isOk(s2[j-1]))
+                {
+                    v[i][j] = v[i-1][j]||v[i][j-1];
+                }
+            }else{
+                if(tolower(s1[i-1])==tolower(s2[j-1]))
+                    v[i][j] = v[i-1][j-1];
+                if(s1[i-1]=='?' && isOk(s2[j-1]))
+                    v[i][j] = v[i-1][j-1];
             }
-            else
-            {
-                i++;
-            }
-        }
-        else if (s1[i] == '?')
-        {
-            if (isMatchStar(s2[j]))
-            {
-                i++;
-                j++;
-            }
-            else
-            {
-                // 不匹配
-                match = false;
-                break;
-            }
-        }
-        else
-        {
-            if (tolower(s1[i]) == tolower(s2[j]))
-            {
-                i++;
-                j++;
-            }
-            else
-            {
-                match = false;
-                break;
-            }
-        }
-        if (j == n)
-        {
-            if (!(i == (m - 1) && s1[i] == '*'))
-            {
-                match = false;
-            }
-            break;
-        }
-        if (i == n)
-        {
-            if (j != n)
-            {
-                match = false;
-            }
-            break;
         }
     }
-
-    return match;
+    return v[m][n];
 }
+
 int main(void)
 {
     st::StreamTestRunner runner;

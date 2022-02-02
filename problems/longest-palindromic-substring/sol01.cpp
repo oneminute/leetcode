@@ -1,3 +1,18 @@
+/**
+ * 
+ * @file sol01.cpp
+ * @author 毒舌大叔
+ * @brief 
+ * 
+ * reference from https://leetcode-cn.com/problems/longest-palindromic-substring/
+ * 
+ * @version 0.1
+ * @date 2022-01-30
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <iostream>
 #include <string>
 #include <vector>
