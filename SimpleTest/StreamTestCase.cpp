@@ -38,7 +38,8 @@ StreamTestCase::~StreamTestCase()
 
 bool StreamTestCase::check(const std::string& actual)
 {
-    return actual == m_expect;
+    setResult(actual == m_expect);
+    return result();
 }
 
 }
