@@ -104,7 +104,7 @@ std::streambuf::int_type StreamTestRunner::underflow()
         if (m_taskQueue.empty())
             return traits_type::eof();
         else
-        {   // before moving to next buffer, we should return a '\n' character to end current line
+        {   // before moving to next buffer, we should return a '\n' character to end up current line
             i = '\n';
             m_currChar = traits_type::to_char_type(i);
             setg(&m_currChar, &m_currChar, &m_currChar + 1);

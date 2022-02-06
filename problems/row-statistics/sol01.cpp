@@ -16,14 +16,12 @@ int main(int argc, char *argv[])
 
     string lineData;
     int lineCount = 0;
-    bool commentLine = false;
 
-    while (cin >> lineData)
+    while (std::getline(cin, lineData))
     {
         int i = 0;
         if (lineData[0] == '-' && lineData[1] == '-')   // 通过判断前两个字符是否为--，来确定该行是否为注释行
         {
-            commentLine = true;
             i = lineData.find('\n');    // 直接找回车符，若找到则该注释行结束，否则可能已经到文档结尾
             lineCount++;
             i++;
@@ -31,30 +29,15 @@ int main(int argc, char *argv[])
                 break;
         }
 
-        bool quotaBegin = false;
-        char beginChar;
         for (; i < lineData.size(); i++)
         {
-            if (quotaBegin)    // 首先判断是否已经有左引号了，如果已经有左引号了，除右引号、分号和回外外其它字符均无视
+            if (lineData[i] == '\"')    // 找到左引号后，直接找右括号，前提是引号不跨行。如果引号跨行，不能这么判断
             {
-                if (lineData[i] == '\"' && beginChar == '\"')
-                {
-                    quotaBegin = false;
-                }
-                if (lineData[i] == '\'' && beginChar == '\'')
-                {
-                    quotaBegin = false;
-                }
-            }
-            else if (lineData[i] == '\"')
-            {
-                quotaBegin = true;
-                beginChar = '\"';
+                i = lineData.find('\"', i);
             }
             else if (lineData[i] == '\'')
             {
-                quotaBegin = true;
-                beginChar = '\'';
+                i = lineData.find('\"', i);
             }
             else if (lineData[i] == ';')
             {
