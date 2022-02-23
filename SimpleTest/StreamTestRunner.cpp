@@ -137,12 +137,18 @@ std::streambuf::int_type StreamTestRunner::sync()
     if (writeSize)
     {
         char tail = *(pptr() - 1);
+        bool output = false;
         if (tail == '\n')
+        {
             writeSize--;
+            output = true;
+        }
+
         if (writeSize)
         {
             m_result.append(std::string(pbase(), writeSize));
-            *m_coutStream << m_result << std::endl;
+            if (output)
+                *m_coutStream << m_result << std::endl;
         }
     }
 

@@ -39,18 +39,19 @@ using namespace std;
 class Solution
 {
 public:
-    int lengthOfLongestSubstring(string data) 
+    int lengthOfLongestSubstring(string s) 
     {
-        vector<int> indicesTable(128, 0);
-        int maxLength = 0;
-        int head = 0;
-        for (int tail = 0; tail < data.size(); tail++) {
-            char currChar = data[tail];
-            head = max(head, indicesTable[currChar]);
-            indicesTable[currChar] = tail + 1;
-            maxLength = max(maxLength, tail - head + 1);
+        int lookup[128];
+        for (int i = 0; i < 128; i++)
+            lookup[i] = 0;
+        int length = 0;
+        int loc = 0;
+        for (int i = 0; i < s.size(); i++) {
+            loc = max(loc, lookup[s[i]]);
+            lookup[s[i]] = i + 1;
+            length = max(length, i - loc + 1);
         }
-        return maxLength;
+        return length;
     }
 };
 
