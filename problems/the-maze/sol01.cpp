@@ -21,7 +21,7 @@ link push(link path, int x, int y)
 	newnode = new node;
 	if (!newnode)
 	{
-		cout << "Error:内存分配失败！" << endl;
+		cout << "Error: memory allocating failed" << endl;
 		return NULL;
 	}
 	newnode->x = x;
