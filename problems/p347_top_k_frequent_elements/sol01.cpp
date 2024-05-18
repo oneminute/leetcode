@@ -14,6 +14,8 @@ using namespace std;
 
 struct MyLess {
     bool operator()(pair<int, int>& a, pair<int, int>& b) {
+        if (a.second == b.second)
+            return a.first > b.first;
         return a.second < b.second;
     }
 };
@@ -41,6 +43,15 @@ public:
 int main()
 {
     Solution s;
+    {
+        vector<int> nums = {3,2,3,1,2,4,5,5,6,7,7,8,2,3,1,1,1,10,11,5,6,2,4,7,8,5,6};
+        int k = 10;
+        vector<int> results = s.topKFrequent(nums, k);
+        cout << "------" << endl;
+        for (int n: results) {
+            cout << n << endl;
+        }
+    }
     {
         vector<int> nums = {1,1,1,2,2,3};
         int k = 2;
