@@ -15,7 +15,7 @@ using namespace std;
 class Solution
 {
 public:
-    void dts(vector<vector<int>>& grid, int k, vector<int>& marked) {
+    void dfs(vector<vector<int>>& grid, int k, vector<int>& marked) {
         stack<int> s;
         s.push(k);
         while (!s.empty()) {
@@ -36,7 +36,7 @@ public:
         for (int i = 0; i < isConnected.size(); i++) {
             if (marked[i] == 0) {
                 count++;
-                dts(isConnected, i, marked);
+                dfs(isConnected, i, marked);
             }
         }
         return count;
