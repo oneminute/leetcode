@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.8)
 
-project ("p417_pacific_atlantic_water_flow")
+project ("p46_permutations")
 
-add_executable(p417_pacific_atlantic_water_flow "sol01.cpp")
-target_link_libraries(p417_pacific_atlantic_water_flow PRIVATE ${leetcode_link_libraries})
+add_executable(p46_permutations "sol01.cpp")
+target_link_libraries(p46_permutations PRIVATE ${leetcode_link_libraries})
 
