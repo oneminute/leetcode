@@ -12,7 +12,18 @@ using namespace std;
 
 class Solution {
 public:
-    bool containsDuplicate(vector<int>& nums) {
+    bool containsDuplicate2(vector<int>& nums) {
+        sort(nums.begin(), nums.end(), [&](int a, int b) {
+            return a < b;
+        });
+        for (int i = 1; i < nums.size(); i++) {
+            if (nums[i - 1] == nums[i])
+                return true;
+        }
+        return false;
+    }
+
+    bool containsDuplicate1(vector<int>& nums) {
         unordered_map<int, int> s;
         for (int n: nums) {
             int count = s[n]++;
@@ -21,6 +32,10 @@ public:
             }
         }
         return false;
+    }
+
+    bool containsDuplicate(vector<int>& nums) {
+        return containsDuplicate1(nums);
     }
 };
 
