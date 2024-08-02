@@ -13,11 +13,6 @@ using namespace std;
 
 class Solution {
 public:
-    /// @brief Using hash map to store the iterated items. For each item, try to find the complement number in the hash map.
-    ///        If found, return, otherwise store it to the hash map.
-    /// @param nums 
-    /// @param target 
-    /// @return 
     vector<int> twoSum3(vector<int>& nums, int target) {
         unordered_map<int, int> hash_map;
         for (int i = 0; i < nums.size(); i++) {
@@ -31,12 +26,6 @@ public:
         return vector<int>();
     }
 
-
-    /// @brief First generate the indices from the original vector. Then sort the indices vector in ascending order.
-    ///        At last, use the double pointer from the begining and ending to find the target pair.
-    /// @param nums 
-    /// @param target 
-    /// @return 
     vector<int> twoSum2(vector<int>& nums, int target) {
         vector<int> indices(nums.size());
         for (int i = 0; i < nums.size(); i++) {
