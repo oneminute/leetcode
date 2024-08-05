@@ -1,3 +1,5 @@
+add_subdirectory(topic_knapsack_problem)
+
 add_subdirectory(24-points)
 add_subdirectory(choir)
 add_subdirectory(count-of-char)
