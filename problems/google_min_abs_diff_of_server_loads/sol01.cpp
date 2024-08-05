@@ -37,16 +37,18 @@ public:
             mid += 1;
         }
 
-        sort(loads.begin(), loads.end());
+        vector<int> dp(mid + 1, 0);
+        for (int i = 0; i <= mid; i++) {
+            dp[i] = loads[0] <= i ? loads[0] : 0;
+        }
 
-        int sum1 = 0;
-        for (int i = loads.size() - 1; i >= 0; i--) {
-            if (loads[i] + sum1 < mid) {
-                sum1 += loads[i];
+        for (int i = 1; i < loads.size(); i++) {
+            for (int j = mid; j >= loads[i]; j--) {
+                dp[j] = max(dp[j], dp[j - loads[i]] + loads[i]);
             }
         }
 
-        diff = abs(sum1 - (sum - sum1));
+        diff = abs(sum - 2 * dp[mid]);
         return diff;
     }
 };
