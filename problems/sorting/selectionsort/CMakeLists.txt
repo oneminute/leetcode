@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 3.8)
 
-project ("selectionsort")
+project ("sorting-selectionsort")
 
-add_executable(selectionsort "sol01.cpp")
-target_link_libraries(selectionsort PRIVATE ${leetcode_link_libraries})
+add_executable(sorting-selectionsort "sol01.cpp")
+target_link_libraries(sorting-selectionsort PRIVATE ${leetcode_link_libraries})
 
