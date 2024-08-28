@@ -1,0 +1,5 @@
+add_subdirectory(quicksort)
+add_subdirectory(mergesort)
+add_subdirectory(bubblesort)
+add_subdirectory(selectionsort)
+add_subdirectory(insertionsort)

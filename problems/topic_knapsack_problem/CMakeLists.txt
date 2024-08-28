@@ -1,1 +1,2 @@
-add_subdirectory(problem_01)
+add_subdirectory(01_zero_one)
+add_subdirectory(02_unbounded)

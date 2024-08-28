@@ -22,6 +22,28 @@ struct MyLess {
 
 class Solution {
 public:
+    vector<int> topKFrequent2(vector<int>& nums, int k) {
+        map<int, int> num_map;
+        for (int i = 0; i < nums.size(); i++) {
+            num_map[nums[i]]++;
+        }
+        auto cmp = [&](int a, int b) {
+            return num_map[a] < num_map[b];
+        };
+        priority_queue<int, vector<int>, decltype(cmp)> queue(cmp);
+        int i = 0;
+        for (auto it: num_map) {
+            i++;
+            queue.push(it.first);
+        }
+        vector<int> results;
+        for (int i = 0; i < k; i++) {
+            results.push_back(queue.top());
+            queue.pop();
+        }
+        return results;
+    }
+    
     vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int, int> table;
         for (int n: nums) {

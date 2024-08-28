@@ -17,18 +17,11 @@ class Solution {
 public:
     int maxValue(int C, vector<int> v, vector<int> w) {
         int N = v.size();
-        // vector<vector<int>> dp(N, vector<int>(C + 1));
         vector<int> dp(C + 1, 0);
-        for (int i = 0; i <= C; i++) {
-            // dp[0][i] = i >= v[0] ? w[0] : 0;
-            dp[i] = i >= v[0] ? w[0] : 0;
-        }
 
-        for (int i = 1; i < N; i++) {
+        for (int i = 0; i < N; i++) {
             for (int j = C; j >= v[i]; j--) {
-                int notChoose = dp[j];
-                int choose = dp[j - v[i]] + w[i];
-                dp[j] = max(notChoose, choose);
+                dp[j] = max(dp[j], dp[j - v[i]] + w[i]);
             }
         }
 

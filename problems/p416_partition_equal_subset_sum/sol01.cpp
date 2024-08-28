@@ -20,13 +20,10 @@ public:
         int mid = (sum + 1) >> 1;
 
         vector<int> dp(mid + 1, 0);
-        for (int i = 0; i <= mid; i++) {
-            dp[i] = nums[0] <= i ? nums[0] : 0;
-        }
 
-        for (int i = 1; i < nums.size(); i++) {
+        for (int i = 0; i < nums.size(); i++) {
             if (nums[i] > mid) continue;
-            for (int j = mid; j > nums[i]; j--) {
+            for (int j = mid; j >= nums[i]; j--) {
                 dp[j] = max(dp[j], dp[j - nums[i]] + nums[i]);
             }
         }
