@@ -6,27 +6,36 @@
 #include <string>
 #include <SimpleTest.h>
 #include <map>
-#include <unordered_map>
-#include <stack>
-#include <set>
 
 using namespace std;
 
 class Solution {
 public:
-    void sortColors(vector<int>& nums) {
-        vector<int> nums2(nums.size(), 1);
-        int l = 0, r = nums.size() - 1;
-        for (int n: nums) {
-            if (n == 0) {
-                nums2[l] = 0;
-                l++;
-            } else if (n == 2) {
-                nums2[r] = 2;
-                r--;
+    int mySqrt(int x) {
+        if (x == 0)
+            return 0;
+
+        int l = 1, r = x, m, sqrt;
+        while (l <= r) {
+            m = l + (r - l) / 2;
+            sqrt = x / m;
+            if (sqrt == m) {
+                break;
+            } else if (sqrt < m) {
+                r = m - 1;
+            } else {
+                l = m + 1;
             }
         }
-        nums = nums2;
+        return sqrt;
+    }
+
+    int mySqrt2(int x) {
+        long a = x;
+        while (a * a > x) {
+            a = (a + x / a) / 2;
+        }
+        return a;
     }
 };
 
@@ -34,15 +43,20 @@ int main()
 {
     Solution s;
     {
-        vector<int> nums = {2,0,2,1,1,0};
-        s.sortColors(nums);
-        for (int i = 0; i < nums.size(); i++) {
-            cout << nums[i] << " ";
-        }
-        cout << endl;
+        int x = 4;
+        cout << "sqrt(" << x << ") = " << s.mySqrt(x) << endl;
+        cout << "sqrt(" << x << ") = " << s.mySqrt2(x) << endl;
     }
-    
-    
+    {
+        int x = 8;
+        cout << "sqrt(" << x << ") = " << s.mySqrt(x) << endl;
+        cout << "sqrt(" << x << ") = " << s.mySqrt2(x) << endl;
+    }
+    {
+        int x = 32;
+        cout << "sqrt(" << x << ") = " << s.mySqrt(x) << endl;
+        cout << "sqrt(" << x << ") = " << s.mySqrt2(x) << endl;
+    }
     printf("\n");
     return 0;
 }
